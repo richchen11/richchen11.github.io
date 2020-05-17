@@ -13077,20 +13077,525 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Analysis-of-the-Professional-Counter-Strike-Global-Offensive-Circuit">Analysis of the Professional Counter Strike Global Offensive Circuit<a class="anchor-link" href="#Analysis-of-the-Professional-Counter-Strike-Global-Offensive-Circuit">&#182;</a></h1><h2 id="CMSC-320-Final-Project">CMSC 320 Final Project<a class="anchor-link" href="#CMSC-320-Final-Project">&#182;</a></h2><h2 id="Richard-Chen">Richard Chen<a class="anchor-link" href="#Richard-Chen">&#182;</a></h2>
+<h1 id="Analysis-of-the-Professional-Counter-Strike-Global-Offensive-Circuit">Analysis of the Professional Counter Strike Global Offensive Circuit<a class="anchor-link" href="#Analysis-of-the-Professional-Counter-Strike-Global-Offensive-Circuit">&#182;</a></h1><h3 id="CMSC-320-Final-Project">CMSC 320 Final Project<a class="anchor-link" href="#CMSC-320-Final-Project">&#182;</a></h3><h3 id="Richard-Chen">Richard Chen<a class="anchor-link" href="#Richard-Chen">&#182;</a></h3><hr>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="REQUIREMENTS">REQUIREMENTS<a class="anchor-link" href="#REQUIREMENTS">&#182;</a></h1><p>1500 words of prose, 150 lines of Python code, appropriate documentation, visualization, and links to any external information</p>
-<h2 id="Motivation.">Motivation.<a class="anchor-link" href="#Motivation.">&#182;</a></h2><p>Does the tutorial make the reader believe the topic is relevant or important (i) in general and (ii) with respect to data science?</p>
-<h2 id="Understanding.">Understanding.<a class="anchor-link" href="#Understanding.">&#182;</a></h2><p>After reading through the tutorial, does an uninformed reader feel informed about the topic? Would a reader who already knew about the topic feel like s/he learned more about it?</p>
-<h2 id="Other-resources.">Other resources.<a class="anchor-link" href="#Other-resources.">&#182;</a></h2><p>Does the tutorial link out to other resources (on the web, in books, etc) that would give a lagging reader additional help on specific topics, or an advanced reader the ability to dive more deeply into a specific application area or technique?</p>
-<h2 id="Prose.">Prose.<a class="anchor-link" href="#Prose.">&#182;</a></h2><p>Does the prose portion of the tutorial actually add to the content of the deliverable?</p>
-<h2 id="Code.">Code.<a class="anchor-link" href="#Code.">&#182;</a></h2><p>Is the code well written, well documented, reproducible, and does it help the reader understand the tutorial? Does it give good examples of specific techniques?</p>
-<h2 id="Subjective-evaluation.">Subjective evaluation.<a class="anchor-link" href="#Subjective-evaluation.">&#182;</a></h2><p>If somebody linked to this tutorial from, say, Hacker News, would people actually read through the entire thing?</p>
+<h2 id="Introduction-and-Motivation">Introduction and Motivation<a class="anchor-link" href="#Introduction-and-Motivation">&#182;</a></h2><hr>
+<p><img src="https://seeklogo.com/images/C/csgo-logo-CAA0A4D48A-seeklogo.com.png" alt=""></p>
+<p>Counter-Strike Global Offensive (CS:GO) is a competitive PC game developed by Valve Corporation in 2012. It is part of a franchise of games stretching back to the release of the first Counter-Strike in 2000. CS:GO is played in a first person perspective, in which two teams of 5 players compete to see who wins a total of 16 rounds the fastest. For the first 15 rounds of the game, one side will play an offensive side that is tasked with planting and bomb and having it detonate. The other side is tasked with defusing the bomb or preventing it from being planted at all. Both teams can also win the round by eliminating all enemy players. In case both teams draw at the 30th round on 15-15, 6 more rounds are added as overtime; ends if a team wins 4 out of 6 rounds. At any point, there are 7 active maps in the competitive pool. Overall matches are played in a <strong>best of 3 maps</strong> to see who wins the series overall.</p>
+<p>Because of the competitive nature of the game, a professional circuit has thrived over the past 8 years. With record player numbers in the base game (1.1 million concurrent players), and increased investment from traditional North American sports franchises, such as the Dallas Cowboys, CS:GO might be a sneak preview into the <strong>future of entertainment</strong>. Having a predictive model of how a competitive CS:GO team can be successful could be worth <strong>millions</strong> as the industry becomes more mainstream. Success in this model could open more opportunities for the broader sport of esports.</p>
+<p>In this tutorial, I will be analyzing a dataset from Kaggle Datasets. I will be going step-by-step through the data pipeline of professional CS:GO teams to determine winning trends and strategies. My goal is to lay the framework and an example for others to build upon when analyzing a competitive multiplayer game. This tutorial and analysis will be written with Python 3 in mind.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dataset">Dataset<a class="anchor-link" href="#Dataset">&#182;</a></h2><p>The dataset used for this tutorial analysis was found via Kaggle Datasets and can be found <a href="https://www.kaggle.com/mateusdmachado/csgo-professional-matches">here.</a> Once you download the files from the link, you should find 4 csv files that stores the data we're interested in. This dataset includes data about competitive CS:GO matches between November 2015 to March 2020. The original source where the data was originally scraped from was www.hltv.org.</p>
+<ul>
+<li>Results.csv: stores data about map scores and team rankings</li>
+<li>Picks.csv: stores data about team's map picks and vetos during the prematch selection between opposing teams</li>
+<li>Economy.csv: stores data about round start equipment values for all rounds played</li>
+<li>Players.csv: stores individual performances of professional players on each map</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Getting-Started">Getting Started<a class="anchor-link" href="#Getting-Started">&#182;</a></h2><p>First we'll need to import the following python libraries:</p>
+<ul>
+<li><a href="https://pandas.pydata.org/">Pandas</a></li>
+<li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup (OPTIONAL)</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Importing the required libraries</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-Scraping">Data Scraping<a class="anchor-link" href="#Data-Scraping">&#182;</a></h2><p>Because the author of the CS:GO Kaggle dataset already scrapped the data off www.hltv.org, I will not be explicitly showing the steps needed to perform that. However, more information can be found by exploring documentation of <strong>Beautiful Soup</strong>, a Python library used to get data and parse a HTML page. <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Link here to explore Beautiful Soup.</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-Tidying">Data Tidying<a class="anchor-link" href="#Data-Tidying">&#182;</a></h2><p>After the data is scrapped, I use the Pandas library's read_csv function to load it into a a data structure called a "DataFrame." This will allow me to easily manipulate rows and columns based on their values. A DataFrame will be the basis of making our data usable for the rest of the pipeline.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># loading data from our data into a dataframe</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./csgo-professional-matches/results.csv&quot;</span><span class="p">)</span>
+<span class="c1"># displaying the first 10 items of our dataframe</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>team_1</th>
+      <th>team_2</th>
+      <th>_map</th>
+      <th>result_1</th>
+      <th>result_2</th>
+      <th>map_winner</th>
+      <th>starting_ct</th>
+      <th>ct_1</th>
+      <th>t_2</th>
+      <th>t_1</th>
+      <th>ct_2</th>
+      <th>event_id</th>
+      <th>match_id</th>
+      <th>rank_1</th>
+      <th>rank_2</th>
+      <th>map_wins_1</th>
+      <th>map_wins_2</th>
+      <th>match_winner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2020-03-18</td>
+      <td>Recon 5</td>
+      <td>TeamOne</td>
+      <td>Dust2</td>
+      <td>0</td>
+      <td>16</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>15</td>
+      <td>5151</td>
+      <td>2340454</td>
+      <td>62</td>
+      <td>63</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2020-03-18</td>
+      <td>Recon 5</td>
+      <td>TeamOne</td>
+      <td>Inferno</td>
+      <td>13</td>
+      <td>16</td>
+      <td>2</td>
+      <td>2</td>
+      <td>8</td>
+      <td>6</td>
+      <td>5</td>
+      <td>10</td>
+      <td>5151</td>
+      <td>2340454</td>
+      <td>62</td>
+      <td>63</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2020-03-18</td>
+      <td>New England Whalers</td>
+      <td>Station7</td>
+      <td>Inferno</td>
+      <td>12</td>
+      <td>16</td>
+      <td>2</td>
+      <td>1</td>
+      <td>9</td>
+      <td>6</td>
+      <td>3</td>
+      <td>10</td>
+      <td>5243</td>
+      <td>2340461</td>
+      <td>140</td>
+      <td>118</td>
+      <td>12</td>
+      <td>16</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2020-03-18</td>
+      <td>Rugratz</td>
+      <td>Bad News Bears</td>
+      <td>Inferno</td>
+      <td>7</td>
+      <td>16</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>8</td>
+      <td>7</td>
+      <td>8</td>
+      <td>5151</td>
+      <td>2340453</td>
+      <td>61</td>
+      <td>38</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2020-03-18</td>
+      <td>Rugratz</td>
+      <td>Bad News Bears</td>
+      <td>Vertigo</td>
+      <td>8</td>
+      <td>16</td>
+      <td>2</td>
+      <td>2</td>
+      <td>4</td>
+      <td>5</td>
+      <td>4</td>
+      <td>11</td>
+      <td>5151</td>
+      <td>2340453</td>
+      <td>61</td>
+      <td>38</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>2020-03-17</td>
+      <td>Singularity</td>
+      <td>Endpoint</td>
+      <td>Overpass</td>
+      <td>13</td>
+      <td>16</td>
+      <td>2</td>
+      <td>2</td>
+      <td>8</td>
+      <td>6</td>
+      <td>5</td>
+      <td>10</td>
+      <td>5247</td>
+      <td>2340456</td>
+      <td>71</td>
+      <td>41</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>2020-03-17</td>
+      <td>Singularity</td>
+      <td>Endpoint</td>
+      <td>Vertigo</td>
+      <td>11</td>
+      <td>16</td>
+      <td>2</td>
+      <td>1</td>
+      <td>6</td>
+      <td>9</td>
+      <td>5</td>
+      <td>7</td>
+      <td>5247</td>
+      <td>2340456</td>
+      <td>71</td>
+      <td>41</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>2020-03-17</td>
+      <td>Espada</td>
+      <td>Tricked</td>
+      <td>Dust2</td>
+      <td>16</td>
+      <td>10</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>8</td>
+      <td>13</td>
+      <td>2</td>
+      <td>5247</td>
+      <td>2340455</td>
+      <td>56</td>
+      <td>77</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>2020-03-17</td>
+      <td>Espada</td>
+      <td>Tricked</td>
+      <td>Nuke</td>
+      <td>16</td>
+      <td>10</td>
+      <td>1</td>
+      <td>1</td>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+      <td>2</td>
+      <td>5247</td>
+      <td>2340455</td>
+      <td>56</td>
+      <td>77</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>2020-03-17</td>
+      <td>fnatic</td>
+      <td>BIG</td>
+      <td>Mirage</td>
+      <td>12</td>
+      <td>16</td>
+      <td>2</td>
+      <td>1</td>
+      <td>9</td>
+      <td>6</td>
+      <td>3</td>
+      <td>10</td>
+      <td>5226</td>
+      <td>2340397</td>
+      <td>5</td>
+      <td>18</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Sources">Sources<a class="anchor-link" href="#Sources">&#182;</a></h2><p><a href="https://www.kaggle.com/mateusdmachado/csgo-professional-matches">Kaggle CS:GO Professional Matches</a>
+<a href="https://pandas.pydata.org/">Pandas Python Library</a>
+<a href="[https://www.crummy.com/software/BeautifulSoup/bs4/doc/](https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup</a>)</p>
 
 </div>
 </div>
