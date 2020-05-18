@@ -13153,13 +13153,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[165]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># loading data from our data into a dataframe</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./csgo-professional-matches/results.csv&quot;</span><span class="p">)</span>
 <span class="c1"># displaying the first few items of our datafram</span>
-<span class="n">df</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13172,7 +13172,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[97]:</div>
+    <div class="prompt output_prompt">Out[165]:</div>
 
 
 
@@ -13327,141 +13327,8 @@ div#notebook {
       <td>2</td>
       <td>2</td>
     </tr>
-    <tr>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <td>45768</td>
-      <td>2015-11-05</td>
-      <td>G2</td>
-      <td>E-frag.net</td>
-      <td>Inferno</td>
-      <td>13</td>
-      <td>16</td>
-      <td>2</td>
-      <td>1</td>
-      <td>8</td>
-      <td>7</td>
-      <td>5</td>
-      <td>9</td>
-      <td>1970</td>
-      <td>2299059</td>
-      <td>7</td>
-      <td>16</td>
-      <td>1</td>
-      <td>2</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>45769</td>
-      <td>2015-11-05</td>
-      <td>G2</td>
-      <td>E-frag.net</td>
-      <td>Dust2</td>
-      <td>16</td>
-      <td>13</td>
-      <td>1</td>
-      <td>1</td>
-      <td>10</td>
-      <td>5</td>
-      <td>6</td>
-      <td>8</td>
-      <td>1970</td>
-      <td>2299059</td>
-      <td>7</td>
-      <td>16</td>
-      <td>1</td>
-      <td>2</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>45770</td>
-      <td>2015-11-04</td>
-      <td>CLG</td>
-      <td>Liquid</td>
-      <td>Inferno</td>
-      <td>16</td>
-      <td>12</td>
-      <td>1</td>
-      <td>1</td>
-      <td>7</td>
-      <td>8</td>
-      <td>9</td>
-      <td>4</td>
-      <td>1934</td>
-      <td>2299011</td>
-      <td>10</td>
-      <td>14</td>
-      <td>16</td>
-      <td>12</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>45771</td>
-      <td>2015-11-03</td>
-      <td>NiP</td>
-      <td>Dignitas</td>
-      <td>Train</td>
-      <td>16</td>
-      <td>4</td>
-      <td>1</td>
-      <td>2</td>
-      <td>4</td>
-      <td>1</td>
-      <td>12</td>
-      <td>3</td>
-      <td>1934</td>
-      <td>2299001</td>
-      <td>6</td>
-      <td>12</td>
-      <td>16</td>
-      <td>4</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>45772</td>
-      <td>2015-11-03</td>
-      <td>NiP</td>
-      <td>Envy</td>
-      <td>Cobblestone</td>
-      <td>16</td>
-      <td>9</td>
-      <td>1</td>
-      <td>2</td>
-      <td>4</td>
-      <td>6</td>
-      <td>12</td>
-      <td>3</td>
-      <td>1934</td>
-      <td>2299003</td>
-      <td>6</td>
-      <td>1</td>
-      <td>16</td>
-      <td>9</td>
-      <td>1</td>
-    </tr>
   </tbody>
 </table>
-<p>45773 rows × 19 columns</p>
 </div>
 </div>
 
@@ -13477,10 +13344,30 @@ div#notebook {
 <p>At this point, we will use functions within the Pandas library to make our DataFrame more usable. One of which is to eliminate excessive data that we will not use in our analysis moving forward. For example in this CS:GO case, we will eliminate matches that did not feature top 20 teams. We will also drop columns that will not be helpful moving forward.</p>
 <p>Functions used here:</p>
 <ul>
-<li><strong>df = df.drop('column_name',1)</strong> will be used to delete 'column_name' in a Pandas DataFrame. 1 is the axis number (0 for rows and 1 for columns).</li>
-<li><strong>df = df.loc[df['column_name']...]</strong> this will be used to filter the DataFrame based on the value of column_name. Could use any boolean statement of comparison in the "..." part </li>
-<li><strong>df['column_name'] = df.apply(lambda row: .... if ... else ...,axis =1)</strong> this is the syntax used to create a new column based on already existing values of a particular row</li>
-<li><strong>df.rename(index = str, columns = {"old_column_name": "new_column_name", ....}, inplace = True)</strong> this can be used to rename columns and make it more presentable for the data pipeline further down</li>
+<li><strong>df = df.drop('column_name',1)</strong> <ul>
+<li>will be used to delete 'column_name' in a Pandas DataFrame. 1 is the axis number (0 for rows and 1 for columns).</li>
+</ul>
+</li>
+<li><strong>df = df.loc[df['column_name']...]</strong> <ul>
+<li>this will be used to filter the DataFrame based on the value of column_name. Could use any boolean statement of comparison in the "..." part </li>
+</ul>
+</li>
+<li><strong>df['column_name'] = df.apply(lambda row: .... if ... else ...,axis =1)</strong> <ul>
+<li>this is the syntax used to create a new column based on already existing values of a particular row</li>
+</ul>
+</li>
+<li><strong>df.rename(index = str, columns = {"old_column_name": "new_column_name", ....}, inplace = True)</strong> <ul>
+<li>this can be used to rename columns and make it more presentable for the data pipeline further down</li>
+</ul>
+</li>
+<li><strong>df['date'] = pd.to_datetime(df['date'])</strong> <ul>
+<li>can be used to convert a column into a datetime object</li>
+</ul>
+</li>
+<li><strong>df = df_reset_index(drop = True)</strong> <ul>
+<li>can be used to reset the index</li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -13488,7 +13375,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[166]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># cleaning up data</span>
@@ -13503,10 +13390,16 @@ div#notebook {
 
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;MapWinner&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">team_2</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">map_winner</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">team_1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;SeriesWinner&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">team_2</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">match_winner</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">team_1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;map_winner&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;match_winner&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_map&#39;</span><span class="p">:</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span><span class="s1">&#39;team_1&#39;</span><span class="p">:</span><span class="s1">&#39;Team_One&#39;</span><span class="p">,</span><span class="s1">&#39;team_2&#39;</span><span class="p">:</span><span class="s1">&#39;Team_Two&#39;</span><span class="p">,</span><span class="s1">&#39;rank_1&#39;</span><span class="p">:</span><span class="s1">&#39;Team_Ones_Rank&#39;</span><span class="p">,</span><span class="s1">&#39;rank_2&#39;</span><span class="p">:</span> <span class="s1">&#39;Team_Twos_Rank&#39;</span><span class="p">,</span> \
                     <span class="s1">&#39;ct_1&#39;</span><span class="p">:</span> <span class="s1">&#39;Team_One_CT_Rounds&#39;</span><span class="p">,</span><span class="s1">&#39;t_2&#39;</span><span class="p">:</span> <span class="s1">&#39;Team_Two_T_Rounds&#39;</span><span class="p">,</span> <span class="s1">&#39;t_1&#39;</span><span class="p">:</span><span class="s1">&#39;Team_One_T_Rounds&#39;</span><span class="p">,</span> <span class="s1">&#39;ct_2&#39;</span><span class="p">:</span><span class="s1">&#39;Team_Two_CT_Rounds&#39;</span><span class="p">},</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;match_id&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
 
@@ -13520,7 +13413,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[98]:</div>
+    <div class="prompt output_prompt">Out[166]:</div>
 
 
 
@@ -13543,7 +13436,6 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>date</th>
       <th>Team_One</th>
       <th>Team_Two</th>
       <th>Map</th>
@@ -13556,12 +13448,12 @@ div#notebook {
       <th>Team_Twos_Rank</th>
       <th>MapWinner</th>
       <th>SeriesWinner</th>
+      <th>Year</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>9</td>
-      <td>2020-03-17</td>
+      <td>0</td>
       <td>fnatic</td>
       <td>BIG</td>
       <td>Mirage</td>
@@ -13574,26 +13466,10 @@ div#notebook {
       <td>18</td>
       <td>BIG</td>
       <td>BIG</td>
+      <td>2020</td>
     </tr>
     <tr>
-      <td>21</td>
-      <td>2020-03-17</td>
-      <td>fnatic</td>
-      <td>BIG</td>
-      <td>Overpass</td>
-      <td>4</td>
-      <td>4</td>
-      <td>12</td>
-      <td>3</td>
-      <td>2340397</td>
-      <td>5</td>
-      <td>18</td>
-      <td>fnatic</td>
-      <td>BIG</td>
-    </tr>
-    <tr>
-      <td>26</td>
-      <td>2020-03-17</td>
+      <td>1</td>
       <td>fnatic</td>
       <td>BIG</td>
       <td>Inferno</td>
@@ -13606,90 +13482,106 @@ div#notebook {
       <td>18</td>
       <td>BIG</td>
       <td>BIG</td>
+      <td>2020</td>
     </tr>
     <tr>
-      <td>45</td>
-      <td>2020-03-16</td>
-      <td>Vitality</td>
-      <td>GODSENT</td>
-      <td>Vertigo</td>
-      <td>6</td>
-      <td>9</td>
-      <td>10</td>
-      <td>5</td>
-      <td>2340063</td>
-      <td>10</td>
-      <td>17</td>
-      <td>Vitality</td>
-      <td>Vitality</td>
-    </tr>
-    <tr>
-      <td>46</td>
-      <td>2020-03-16</td>
-      <td>Vitality</td>
-      <td>GODSENT</td>
-      <td>Nuke</td>
-      <td>6</td>
+      <td>2</td>
+      <td>fnatic</td>
+      <td>BIG</td>
+      <td>Overpass</td>
+      <td>4</td>
+      <td>4</td>
+      <td>12</td>
       <td>3</td>
-      <td>10</td>
+      <td>2340397</td>
       <td>5</td>
-      <td>2340063</td>
-      <td>10</td>
-      <td>17</td>
-      <td>Vitality</td>
-      <td>Vitality</td>
+      <td>18</td>
+      <td>fnatic</td>
+      <td>BIG</td>
+      <td>2020</td>
     </tr>
     <tr>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <td>45768</td>
-      <td>2015-11-05</td>
-      <td>G2</td>
-      <td>E-frag.net</td>
-      <td>Inferno</td>
-      <td>8</td>
-      <td>7</td>
-      <td>5</td>
-      <td>9</td>
-      <td>2299059</td>
-      <td>7</td>
+      <td>3</td>
+      <td>GODSENT</td>
+      <td>OG</td>
+      <td>Train</td>
+      <td>12</td>
+      <td>3</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2340183</td>
+      <td>18</td>
       <td>16</td>
-      <td>E-frag.net</td>
-      <td>E-frag.net</td>
+      <td>GODSENT</td>
+      <td>GODSENT</td>
+      <td>2020</td>
     </tr>
     <tr>
-      <td>45769</td>
-      <td>2015-11-05</td>
-      <td>G2</td>
-      <td>E-frag.net</td>
+      <td>4</td>
+      <td>GODSENT</td>
+      <td>OG</td>
       <td>Dust2</td>
-      <td>10</td>
-      <td>5</td>
+      <td>9</td>
       <td>6</td>
-      <td>8</td>
-      <td>2299059</td>
-      <td>7</td>
+      <td>6</td>
+      <td>9</td>
+      <td>2340183</td>
+      <td>18</td>
       <td>16</td>
-      <td>G2</td>
-      <td>E-frag.net</td>
+      <td>OG</td>
+      <td>GODSENT</td>
+      <td>2020</td>
     </tr>
     <tr>
-      <td>45770</td>
-      <td>2015-11-04</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>5768</td>
+      <td>Liquid</td>
+      <td>Luminosity</td>
+      <td>Cobblestone</td>
+      <td>9</td>
+      <td>6</td>
+      <td>7</td>
+      <td>0</td>
+      <td>2299042</td>
+      <td>14</td>
+      <td>9</td>
+      <td>Liquid</td>
+      <td>Liquid</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>5769</td>
+      <td>CLG</td>
+      <td>Luminosity</td>
+      <td>Cache</td>
+      <td>1</td>
+      <td>4</td>
+      <td>3</td>
+      <td>12</td>
+      <td>2299040</td>
+      <td>10</td>
+      <td>9</td>
+      <td>Luminosity</td>
+      <td>Luminosity</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>5770</td>
       <td>CLG</td>
       <td>Liquid</td>
       <td>Inferno</td>
@@ -13702,26 +13594,10 @@ div#notebook {
       <td>14</td>
       <td>CLG</td>
       <td>CLG</td>
+      <td>2015</td>
     </tr>
     <tr>
-      <td>45771</td>
-      <td>2015-11-03</td>
-      <td>NiP</td>
-      <td>Dignitas</td>
-      <td>Train</td>
-      <td>4</td>
-      <td>1</td>
-      <td>12</td>
-      <td>3</td>
-      <td>2299001</td>
-      <td>6</td>
-      <td>12</td>
-      <td>NiP</td>
-      <td>NiP</td>
-    </tr>
-    <tr>
-      <td>45772</td>
-      <td>2015-11-03</td>
+      <td>5771</td>
       <td>NiP</td>
       <td>Envy</td>
       <td>Cobblestone</td>
@@ -13734,6 +13610,23 @@ div#notebook {
       <td>1</td>
       <td>NiP</td>
       <td>NiP</td>
+      <td>2015</td>
+    </tr>
+    <tr>
+      <td>5772</td>
+      <td>NiP</td>
+      <td>Dignitas</td>
+      <td>Train</td>
+      <td>4</td>
+      <td>1</td>
+      <td>12</td>
+      <td>3</td>
+      <td>2299001</td>
+      <td>6</td>
+      <td>12</td>
+      <td>NiP</td>
+      <td>NiP</td>
+      <td>2015</td>
     </tr>
   </tbody>
 </table>
@@ -13747,15 +13640,463 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Entity-Resolution">Entity Resolution<a class="anchor-link" href="#Entity-Resolution">&#182;</a></h2><p>Potential issue that might arise when using multiple datasets; for example, if the data scientist wanted to use data from Players.csv. I will now show an example of <strong>joining</strong> two DataFrames together. If the question was: "I want to see how this individual player performs when his team wins vs how this player performs when his team loses" In order to analyze such a question, you would join the data on match_id</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[189]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">player_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./csgo-professional-matches/players.csv&quot;</span><span class="p">)</span>
+<span class="n">player_df</span> <span class="o">=</span> <span class="n">player_df</span><span class="p">[[</span><span class="s1">&#39;player_name&#39;</span><span class="p">,</span><span class="s1">&#39;team&#39;</span><span class="p">,</span> <span class="s1">&#39;match_id&#39;</span><span class="p">,</span> <span class="s1">&#39;m1_rating_ct&#39;</span><span class="p">,</span> <span class="s1">&#39;m1_rating_t&#39;</span><span class="p">,</span> <span class="s1">&#39;m2_rating_ct&#39;</span><span class="p">,</span> \
+                       <span class="s1">&#39;m2_rating_t&#39;</span><span class="p">,</span><span class="s1">&#39;m3_rating_ct&#39;</span><span class="p">,</span> <span class="s1">&#39;m3_rating_t&#39;</span><span class="p">]]</span>
+<span class="n">player_df</span> <span class="o">=</span> <span class="n">player_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;m1_rating_ct&#39;</span><span class="p">,</span> <span class="s1">&#39;m1_rating_t&#39;</span><span class="p">,</span> <span class="s1">&#39;m2_rating_ct&#39;</span><span class="p">,</span><span class="s1">&#39;m2_rating_t&#39;</span><span class="p">])</span>
+<span class="n">player_df</span><span class="p">[</span><span class="s1">&#39;Average_T_Rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player_df</span><span class="p">[[</span><span class="s1">&#39;m1_rating_t&#39;</span><span class="p">,</span> <span class="s1">&#39;m2_rating_t&#39;</span><span class="p">,</span> <span class="s1">&#39;m3_rating_t&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">player_df</span><span class="p">[</span><span class="s1">&#39;Average_CT_Rating&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player_df</span><span class="p">[[</span><span class="s1">&#39;m1_rating_ct&#39;</span><span class="p">,</span> <span class="s1">&#39;m2_rating_ct&#39;</span><span class="p">,</span> <span class="s1">&#39;m3_rating_ct&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">player_df</span> <span class="o">=</span> <span class="n">player_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;m1_rating_ct&#39;</span><span class="p">,</span><span class="s1">&#39;m1_rating_t&#39;</span><span class="p">,</span> <span class="s1">&#39;m2_rating_ct&#39;</span><span class="p">,</span><span class="s1">&#39;m2_rating_t&#39;</span><span class="p">,</span><span class="s1">&#39;m3_rating_ct&#39;</span><span class="p">,</span>\
+                            <span class="s1">&#39;m3_rating_t&#39;</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">player_df</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[189]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>player_name</th>
+      <th>team</th>
+      <th>match_id</th>
+      <th>Average_T_Rating</th>
+      <th>Average_CT_Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Brehze</td>
+      <td>Evil Geniuses</td>
+      <td>2339385</td>
+      <td>0.860000</td>
+      <td>1.080000</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>CeRq</td>
+      <td>Evil Geniuses</td>
+      <td>2339385</td>
+      <td>0.676667</td>
+      <td>1.150000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>EliGE</td>
+      <td>Liquid</td>
+      <td>2339385</td>
+      <td>0.876667</td>
+      <td>1.486667</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Ethan</td>
+      <td>Evil Geniuses</td>
+      <td>2339385</td>
+      <td>0.413333</td>
+      <td>1.096667</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>NAF</td>
+      <td>Liquid</td>
+      <td>2339385</td>
+      <td>0.876667</td>
+      <td>1.273333</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>367897</td>
+      <td>Pimp</td>
+      <td>SK</td>
+      <td>2300263</td>
+      <td>0.730000</td>
+      <td>0.550000</td>
+    </tr>
+    <tr>
+      <td>367898</td>
+      <td>Spiidi</td>
+      <td>mousesports</td>
+      <td>2300263</td>
+      <td>1.275000</td>
+      <td>1.375000</td>
+    </tr>
+    <tr>
+      <td>367899</td>
+      <td>chrisJ</td>
+      <td>mousesports</td>
+      <td>2300263</td>
+      <td>1.160000</td>
+      <td>1.315000</td>
+    </tr>
+    <tr>
+      <td>367900</td>
+      <td>denis</td>
+      <td>mousesports</td>
+      <td>2300263</td>
+      <td>1.635000</td>
+      <td>1.505000</td>
+    </tr>
+    <tr>
+      <td>367901</td>
+      <td>nex</td>
+      <td>mousesports</td>
+      <td>2300263</td>
+      <td>1.145000</td>
+      <td>1.565000</td>
+    </tr>
+  </tbody>
+</table>
+<p>127934 rows × 5 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[190]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">player_df</span><span class="p">,</span><span class="n">df</span><span class="p">,</span><span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;match_id&#39;</span><span class="p">)</span>
+<span class="n">new_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;match_id&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">new_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">new_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[190]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>player_name</th>
+      <th>team</th>
+      <th>match_id</th>
+      <th>Average_T_Rating</th>
+      <th>Average_CT_Rating</th>
+      <th>Team_One</th>
+      <th>Team_Two</th>
+      <th>Map</th>
+      <th>Team_One_CT_Rounds</th>
+      <th>Team_Two_T_Rounds</th>
+      <th>Team_One_T_Rounds</th>
+      <th>Team_Two_CT_Rounds</th>
+      <th>Team_Ones_Rank</th>
+      <th>Team_Twos_Rank</th>
+      <th>MapWinner</th>
+      <th>SeriesWinner</th>
+      <th>Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>ZywOo</td>
+      <td>Vitality</td>
+      <td>2339391</td>
+      <td>1.203333</td>
+      <td>1.650000</td>
+      <td>Vitality</td>
+      <td>FaZe</td>
+      <td>Nuke</td>
+      <td>5</td>
+      <td>7</td>
+      <td>6</td>
+      <td>9</td>
+      <td>7</td>
+      <td>9</td>
+      <td>FaZe</td>
+      <td>FaZe</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>NiKo</td>
+      <td>FaZe</td>
+      <td>2339391</td>
+      <td>1.046667</td>
+      <td>1.376667</td>
+      <td>Vitality</td>
+      <td>FaZe</td>
+      <td>Inferno</td>
+      <td>5</td>
+      <td>10</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>9</td>
+      <td>FaZe</td>
+      <td>FaZe</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>olofmeister</td>
+      <td>FaZe</td>
+      <td>2339391</td>
+      <td>0.976667</td>
+      <td>1.100000</td>
+      <td>Vitality</td>
+      <td>FaZe</td>
+      <td>Nuke</td>
+      <td>5</td>
+      <td>7</td>
+      <td>6</td>
+      <td>9</td>
+      <td>7</td>
+      <td>9</td>
+      <td>FaZe</td>
+      <td>FaZe</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>olofmeister</td>
+      <td>FaZe</td>
+      <td>2339391</td>
+      <td>0.976667</td>
+      <td>1.100000</td>
+      <td>Vitality</td>
+      <td>FaZe</td>
+      <td>Mirage</td>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+      <td>6</td>
+      <td>7</td>
+      <td>9</td>
+      <td>Vitality</td>
+      <td>FaZe</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>coldzera</td>
+      <td>FaZe</td>
+      <td>2339391</td>
+      <td>1.033333</td>
+      <td>1.256667</td>
+      <td>Vitality</td>
+      <td>FaZe</td>
+      <td>Inferno</td>
+      <td>5</td>
+      <td>10</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>9</td>
+      <td>FaZe</td>
+      <td>FaZe</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>32635</td>
+      <td>Friis</td>
+      <td>SK</td>
+      <td>2300263</td>
+      <td>0.450000</td>
+      <td>0.390000</td>
+      <td>SK</td>
+      <td>mousesports</td>
+      <td>Mirage</td>
+      <td>3</td>
+      <td>12</td>
+      <td>5</td>
+      <td>4</td>
+      <td>18</td>
+      <td>12</td>
+      <td>mousesports</td>
+      <td>mousesports</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>32636</td>
+      <td>Friis</td>
+      <td>SK</td>
+      <td>2300263</td>
+      <td>0.450000</td>
+      <td>0.390000</td>
+      <td>SK</td>
+      <td>mousesports</td>
+      <td>Cache</td>
+      <td>4</td>
+      <td>11</td>
+      <td>0</td>
+      <td>5</td>
+      <td>18</td>
+      <td>12</td>
+      <td>mousesports</td>
+      <td>mousesports</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>32637</td>
+      <td>AcilioN</td>
+      <td>SK</td>
+      <td>2300263</td>
+      <td>0.875000</td>
+      <td>0.630000</td>
+      <td>SK</td>
+      <td>mousesports</td>
+      <td>Mirage</td>
+      <td>3</td>
+      <td>12</td>
+      <td>5</td>
+      <td>4</td>
+      <td>18</td>
+      <td>12</td>
+      <td>mousesports</td>
+      <td>mousesports</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>32638</td>
+      <td>AcilioN</td>
+      <td>SK</td>
+      <td>2300263</td>
+      <td>0.875000</td>
+      <td>0.630000</td>
+      <td>SK</td>
+      <td>mousesports</td>
+      <td>Cache</td>
+      <td>4</td>
+      <td>11</td>
+      <td>0</td>
+      <td>5</td>
+      <td>18</td>
+      <td>12</td>
+      <td>mousesports</td>
+      <td>mousesports</td>
+      <td>2016</td>
+    </tr>
+    <tr>
+      <td>32639</td>
+      <td>nex</td>
+      <td>mousesports</td>
+      <td>2300263</td>
+      <td>1.145000</td>
+      <td>1.565000</td>
+      <td>SK</td>
+      <td>mousesports</td>
+      <td>Mirage</td>
+      <td>3</td>
+      <td>12</td>
+      <td>5</td>
+      <td>4</td>
+      <td>18</td>
+      <td>12</td>
+      <td>mousesports</td>
+      <td>mousesports</td>
+      <td>2016</td>
+    </tr>
+  </tbody>
+</table>
+<p>32640 rows × 17 columns</p>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -13867,9 +14208,11 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Sources">Sources<a class="anchor-link" href="#Sources">&#182;</a></h2><p><a href="https://www.kaggle.com/mateusdmachado/csgo-professional-matches">Kaggle CS:GO Professional Matches</a>
-<a href="https://pandas.pydata.org/">Pandas Python Library</a>
-<a href="[https://www.crummy.com/software/BeautifulSoup/bs4/doc/](https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup</a>)</p>
+<h2 id="Sources">Sources<a class="anchor-link" href="#Sources">&#182;</a></h2><ul>
+<li><a href="https://www.kaggle.com/mateusdmachado/csgo-professional-matches">Kaggle CS:GO Professional Matches</a></li>
+<li><a href="https://pandas.pydata.org/">Pandas Python Library</a></li>
+<li><a href="[https://www.crummy.com/software/BeautifulSoup/bs4/doc/](https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup</a>)</li>
+</ul>
 
 </div>
 </div>
