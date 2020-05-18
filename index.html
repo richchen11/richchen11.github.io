@@ -13087,7 +13087,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Introduction-and-Motivation">Introduction and Motivation<a class="anchor-link" href="#Introduction-and-Motivation">&#182;</a></h2><hr>
 <p><img src="https://seeklogo.com/images/C/csgo-logo-CAA0A4D48A-seeklogo.com.png" alt=""></p>
-<p>Counter-Strike Global Offensive (CS:GO) is a competitive PC game developed by Valve Corporation in 2012. It is part of a franchise of games stretching back to the release of the first Counter-Strike in 2000. CS:GO is played in a first person perspective, in which two teams of 5 players compete to see who wins a total of 16 rounds the fastest. For the first 15 rounds of the game, one side will play an offensive side that is tasked with planting and bomb and having it detonate. The other side is tasked with defusing the bomb or preventing it from being planted at all. Both teams can also win the round by eliminating all enemy players. In case both teams draw at the 30th round on 15-15, 6 more rounds are added as overtime; ends if a team wins 4 out of 6 rounds. At any point, there are 7 active maps in the competitive pool. Overall matches are played in a <strong>best of 3 maps</strong> to see who wins the series overall.</p>
+<p>Counter-Strike Global Offensive (CS:GO) is a competitive PC game developed by Valve Corporation in 2012. It is part of a franchise of games stretching back to the release of the first Counter-Strike in 2000. CS:GO is played in a first person perspective, in which two teams of 5 players compete to see who wins a total of 16 rounds the fastest. For the first 15 rounds of the game, one side will play an offensive side (T-side) that is tasked with planting and bomb and having it detonate. The other side is tasked with defusing the bomb or preventing it from being planted at all (CT-side). Both teams can also win the round by eliminating all enemy players. In case both teams draw at the 30th round on 15-15, 6 more rounds are added as overtime; ends if a team wins 4 out of 6 rounds. At any point, there are 7 active maps in the competitive pool. Overall matches are played in a <strong>best of 3 maps</strong> to see who wins the series overall.</p>
 <p>Because of the competitive nature of the game, a professional circuit has thrived over the past 8 years. With record player numbers in the base game (1.1 million concurrent players), and increased investment from traditional North American sports franchises, such as the Dallas Cowboys, CS:GO might be a sneak preview into the <strong>future of entertainment</strong>. Having a predictive model of how a competitive CS:GO team can be successful could be worth <strong>millions</strong> as the industry becomes more mainstream. Success in this model could open more opportunities for the broader sport of esports.</p>
 <p>In this tutorial, I will be analyzing a dataset from Kaggle Datasets. I will be going step-by-step through the data pipeline of professional CS:GO teams to determine winning trends and strategies. My goal is to lay the framework and an example for others to build upon when analyzing a competitive multiplayer game. This tutorial and analysis will be written with Python 3 in mind.</p>
 
@@ -13116,13 +13116,14 @@ div#notebook {
 <li><a href="https://pandas.pydata.org/">Pandas</a></li>
 <li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup (OPTIONAL)</a></li>
 </ul>
+<p>The syntax to install the libraries is "pip install &lt; library name &gt;"</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Importing the required libraries</span>
@@ -13145,20 +13146,20 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-Tidying">Data Tidying<a class="anchor-link" href="#Data-Tidying">&#182;</a></h2><p>After the data is scrapped, I use the Pandas library's read_csv function to load it into a a data structure called a "DataFrame." This will allow me to easily manipulate rows and columns based on their values. A DataFrame will be the basis of making our data usable for the rest of the pipeline.</p>
+<h2 id="Data-Tidying">Data Tidying<a class="anchor-link" href="#Data-Tidying">&#182;</a></h2><p>After the data is scrapped, I use the <strong>Pandas library's read_csv function</strong> to load it into a a data structure called a "DataFrame." This will allow me to easily manipulate rows and columns based on their values. A DataFrame will be the basis of making our data usable for the rest of the pipeline. Essentially one row will represent one matchup between teams.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># loading data from our data into a dataframe</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./csgo-professional-matches/results.csv&quot;</span><span class="p">)</span>
-<span class="c1"># displaying the first 10 items of our dataframe</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># displaying the first few items of our datafram</span>
+<span class="n">df</span>
 </pre></div>
 
     </div>
@@ -13171,7 +13172,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[15]:</div>
+    <div class="prompt output_prompt">Out[97]:</div>
 
 
 
@@ -13327,148 +13328,421 @@ div#notebook {
       <td>2</td>
     </tr>
     <tr>
-      <td>5</td>
-      <td>2020-03-17</td>
-      <td>Singularity</td>
-      <td>Endpoint</td>
-      <td>Overpass</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>45768</td>
+      <td>2015-11-05</td>
+      <td>G2</td>
+      <td>E-frag.net</td>
+      <td>Inferno</td>
       <td>13</td>
       <td>16</td>
       <td>2</td>
-      <td>2</td>
-      <td>8</td>
-      <td>6</td>
-      <td>5</td>
-      <td>10</td>
-      <td>5247</td>
-      <td>2340456</td>
-      <td>71</td>
-      <td>41</td>
-      <td>0</td>
-      <td>2</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>2020-03-17</td>
-      <td>Singularity</td>
-      <td>Endpoint</td>
-      <td>Vertigo</td>
-      <td>11</td>
-      <td>16</td>
-      <td>2</td>
       <td>1</td>
-      <td>6</td>
-      <td>9</td>
-      <td>5</td>
+      <td>8</td>
       <td>7</td>
-      <td>5247</td>
-      <td>2340456</td>
-      <td>71</td>
-      <td>41</td>
-      <td>0</td>
+      <td>5</td>
+      <td>9</td>
+      <td>1970</td>
+      <td>2299059</td>
+      <td>7</td>
+      <td>16</td>
+      <td>1</td>
       <td>2</td>
       <td>2</td>
     </tr>
     <tr>
-      <td>7</td>
-      <td>2020-03-17</td>
-      <td>Espada</td>
-      <td>Tricked</td>
+      <td>45769</td>
+      <td>2015-11-05</td>
+      <td>G2</td>
+      <td>E-frag.net</td>
       <td>Dust2</td>
       <td>16</td>
-      <td>10</td>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-      <td>8</td>
       <td>13</td>
-      <td>2</td>
-      <td>5247</td>
-      <td>2340455</td>
-      <td>56</td>
-      <td>77</td>
-      <td>2</td>
-      <td>0</td>
       <td>1</td>
+      <td>1</td>
+      <td>10</td>
+      <td>5</td>
+      <td>6</td>
+      <td>8</td>
+      <td>1970</td>
+      <td>2299059</td>
+      <td>7</td>
+      <td>16</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
     </tr>
     <tr>
-      <td>8</td>
-      <td>2020-03-17</td>
-      <td>Espada</td>
-      <td>Tricked</td>
-      <td>Nuke</td>
+      <td>45770</td>
+      <td>2015-11-04</td>
+      <td>CLG</td>
+      <td>Liquid</td>
+      <td>Inferno</td>
       <td>16</td>
-      <td>10</td>
+      <td>12</td>
       <td>1</td>
       <td>1</td>
       <td>7</td>
       <td>8</td>
       <td>9</td>
-      <td>2</td>
-      <td>5247</td>
-      <td>2340455</td>
-      <td>56</td>
-      <td>77</td>
-      <td>2</td>
-      <td>0</td>
+      <td>4</td>
+      <td>1934</td>
+      <td>2299011</td>
+      <td>10</td>
+      <td>14</td>
+      <td>16</td>
+      <td>12</td>
       <td>1</td>
     </tr>
+    <tr>
+      <td>45771</td>
+      <td>2015-11-03</td>
+      <td>NiP</td>
+      <td>Dignitas</td>
+      <td>Train</td>
+      <td>16</td>
+      <td>4</td>
+      <td>1</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1</td>
+      <td>12</td>
+      <td>3</td>
+      <td>1934</td>
+      <td>2299001</td>
+      <td>6</td>
+      <td>12</td>
+      <td>16</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>45772</td>
+      <td>2015-11-03</td>
+      <td>NiP</td>
+      <td>Envy</td>
+      <td>Cobblestone</td>
+      <td>16</td>
+      <td>9</td>
+      <td>1</td>
+      <td>2</td>
+      <td>4</td>
+      <td>6</td>
+      <td>12</td>
+      <td>3</td>
+      <td>1934</td>
+      <td>2299003</td>
+      <td>6</td>
+      <td>1</td>
+      <td>16</td>
+      <td>9</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>45773 rows × 19 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>At this point, we will use functions within the Pandas library to make our DataFrame more usable. One of which is to eliminate excessive data that we will not use in our analysis moving forward. For example in this CS:GO case, we will eliminate matches that did not feature top 20 teams. We will also drop columns that will not be helpful moving forward.</p>
+<p>Functions used here:</p>
+<ul>
+<li><strong>df = df.drop('column_name',1)</strong> will be used to delete 'column_name' in a Pandas DataFrame. 1 is the axis number (0 for rows and 1 for columns).</li>
+<li><strong>df = df.loc[df['column_name']...]</strong> this will be used to filter the DataFrame based on the value of column_name. Could use any boolean statement of comparison in the "..." part </li>
+<li><strong>df['column_name'] = df.apply(lambda row: .... if ... else ...,axis =1)</strong> this is the syntax used to create a new column based on already existing values of a particular row</li>
+<li><strong>df.rename(index = str, columns = {"old_column_name": "new_column_name", ....}, inplace = True)</strong> this can be used to rename columns and make it more presentable for the data pipeline further down</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># cleaning up data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;starting_ct&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;result_1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;result_2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;map_wins_1&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;map_wins_2&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;event_id&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rank_1&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;rank_2&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">]</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;MapWinner&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">team_2</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">map_winner</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">team_1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;SeriesWinner&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">team_2</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">match_winner</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">team_1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;map_winner&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;match_winner&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_map&#39;</span><span class="p">:</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span><span class="s1">&#39;team_1&#39;</span><span class="p">:</span><span class="s1">&#39;Team_One&#39;</span><span class="p">,</span><span class="s1">&#39;team_2&#39;</span><span class="p">:</span><span class="s1">&#39;Team_Two&#39;</span><span class="p">,</span><span class="s1">&#39;rank_1&#39;</span><span class="p">:</span><span class="s1">&#39;Team_Ones_Rank&#39;</span><span class="p">,</span><span class="s1">&#39;rank_2&#39;</span><span class="p">:</span> <span class="s1">&#39;Team_Twos_Rank&#39;</span><span class="p">,</span> \
+                    <span class="s1">&#39;ct_1&#39;</span><span class="p">:</span> <span class="s1">&#39;Team_One_CT_Rounds&#39;</span><span class="p">,</span><span class="s1">&#39;t_2&#39;</span><span class="p">:</span> <span class="s1">&#39;Team_Two_T_Rounds&#39;</span><span class="p">,</span> <span class="s1">&#39;t_1&#39;</span><span class="p">:</span><span class="s1">&#39;Team_One_T_Rounds&#39;</span><span class="p">,</span> <span class="s1">&#39;ct_2&#39;</span><span class="p">:</span><span class="s1">&#39;Team_Two_CT_Rounds&#39;</span><span class="p">},</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[98]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>Team_One</th>
+      <th>Team_Two</th>
+      <th>Map</th>
+      <th>Team_One_CT_Rounds</th>
+      <th>Team_Two_T_Rounds</th>
+      <th>Team_One_T_Rounds</th>
+      <th>Team_Two_CT_Rounds</th>
+      <th>match_id</th>
+      <th>Team_Ones_Rank</th>
+      <th>Team_Twos_Rank</th>
+      <th>MapWinner</th>
+      <th>SeriesWinner</th>
+    </tr>
+  </thead>
+  <tbody>
     <tr>
       <td>9</td>
       <td>2020-03-17</td>
       <td>fnatic</td>
       <td>BIG</td>
       <td>Mirage</td>
-      <td>12</td>
-      <td>16</td>
-      <td>2</td>
-      <td>1</td>
       <td>9</td>
       <td>6</td>
       <td>3</td>
       <td>10</td>
-      <td>5226</td>
       <td>2340397</td>
       <td>5</td>
       <td>18</td>
+      <td>BIG</td>
+      <td>BIG</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td>2020-03-17</td>
+      <td>fnatic</td>
+      <td>BIG</td>
+      <td>Overpass</td>
+      <td>4</td>
+      <td>4</td>
+      <td>12</td>
+      <td>3</td>
+      <td>2340397</td>
+      <td>5</td>
+      <td>18</td>
+      <td>fnatic</td>
+      <td>BIG</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>2020-03-17</td>
+      <td>fnatic</td>
+      <td>BIG</td>
+      <td>Inferno</td>
+      <td>5</td>
+      <td>10</td>
+      <td>2</td>
+      <td>6</td>
+      <td>2340397</td>
+      <td>5</td>
+      <td>18</td>
+      <td>BIG</td>
+      <td>BIG</td>
+    </tr>
+    <tr>
+      <td>45</td>
+      <td>2020-03-16</td>
+      <td>Vitality</td>
+      <td>GODSENT</td>
+      <td>Vertigo</td>
+      <td>6</td>
+      <td>9</td>
+      <td>10</td>
+      <td>5</td>
+      <td>2340063</td>
+      <td>10</td>
+      <td>17</td>
+      <td>Vitality</td>
+      <td>Vitality</td>
+    </tr>
+    <tr>
+      <td>46</td>
+      <td>2020-03-16</td>
+      <td>Vitality</td>
+      <td>GODSENT</td>
+      <td>Nuke</td>
+      <td>6</td>
+      <td>3</td>
+      <td>10</td>
+      <td>5</td>
+      <td>2340063</td>
+      <td>10</td>
+      <td>17</td>
+      <td>Vitality</td>
+      <td>Vitality</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>45768</td>
+      <td>2015-11-05</td>
+      <td>G2</td>
+      <td>E-frag.net</td>
+      <td>Inferno</td>
+      <td>8</td>
+      <td>7</td>
+      <td>5</td>
+      <td>9</td>
+      <td>2299059</td>
+      <td>7</td>
+      <td>16</td>
+      <td>E-frag.net</td>
+      <td>E-frag.net</td>
+    </tr>
+    <tr>
+      <td>45769</td>
+      <td>2015-11-05</td>
+      <td>G2</td>
+      <td>E-frag.net</td>
+      <td>Dust2</td>
+      <td>10</td>
+      <td>5</td>
+      <td>6</td>
+      <td>8</td>
+      <td>2299059</td>
+      <td>7</td>
+      <td>16</td>
+      <td>G2</td>
+      <td>E-frag.net</td>
+    </tr>
+    <tr>
+      <td>45770</td>
+      <td>2015-11-04</td>
+      <td>CLG</td>
+      <td>Liquid</td>
+      <td>Inferno</td>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+      <td>4</td>
+      <td>2299011</td>
+      <td>10</td>
+      <td>14</td>
+      <td>CLG</td>
+      <td>CLG</td>
+    </tr>
+    <tr>
+      <td>45771</td>
+      <td>2015-11-03</td>
+      <td>NiP</td>
+      <td>Dignitas</td>
+      <td>Train</td>
+      <td>4</td>
       <td>1</td>
-      <td>2</td>
-      <td>2</td>
+      <td>12</td>
+      <td>3</td>
+      <td>2299001</td>
+      <td>6</td>
+      <td>12</td>
+      <td>NiP</td>
+      <td>NiP</td>
+    </tr>
+    <tr>
+      <td>45772</td>
+      <td>2015-11-03</td>
+      <td>NiP</td>
+      <td>Envy</td>
+      <td>Cobblestone</td>
+      <td>4</td>
+      <td>6</td>
+      <td>12</td>
+      <td>3</td>
+      <td>2299003</td>
+      <td>6</td>
+      <td>1</td>
+      <td>NiP</td>
+      <td>NiP</td>
     </tr>
   </tbody>
 </table>
+<p>5773 rows × 13 columns</p>
 </div>
 </div>
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
 </div>
 </div>
 
